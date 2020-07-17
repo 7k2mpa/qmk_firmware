@@ -43,6 +43,10 @@ enum {
 
 #define KC_LOWR LOWER
 #define KC_RASE RAISE
+#define KC_LLWR LLOWER
+#define KC_RLWR RLOWER
+
+
 #define KC_RST RESET
 #define KC_BL_S BL_STEP
 #define KC_DBUG DEBUG
@@ -100,9 +104,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|----+----+----+----+----+----+----.    ,----|----+----+----+----+----+----|
      SHCP, Z  , X  , C  , V  , B  ,ESRA,     DLRA, N  , M  ,COMM,DOT ,SLSH,BLRS,
   //`----+----+----+--+-+----+----+----/    \----+----+----+----+----+----+----'
-                       LTUB,LLWR,TBCT,         BSAL,RLWER,RTUB
+                       LTUB,LLWR,TBCT,         BSAL,RLWR,RTUB
   //                  `----+----+----'        `----+----+----'
   ),
+
 
 
   [_LOWER] = LAYOUT_kc(
@@ -127,7 +132,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|----+----+----+----+----+----|              |----+----+----+----+----+----|
          ,    ,    ,    ,    ,    ,                   ,    ,    ,    ,    ,    ,
   //|----+----+----+----+----+----+----.    ,----|----+----+----+----+----+----|
-         ,    ,    ,    ,    ,    ,                   ,    ,    ,    ,    ,    ,
+         ,    ,    ,    ,    ,    ,    ,         ,    ,    ,    ,    ,    ,    ,
   //`----+----+----+--+-+----+----+----/    \----+----+----+----+----+----+----'
                            ,    ,    ,             ,F14 ,
   //                  `----+----+----'        `----+----+----'
@@ -141,9 +146,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|----+----+----+----+----+----|              |----+----+----+----+----+----|
          ,    ,    ,    ,    ,    ,                   ,    ,    ,    ,    ,    ,
   //|----+----+----+----+----+----+----.    ,----|----+----+----+----+----+----|
-         ,    ,    ,    ,    ,    ,                   ,    ,    ,    ,    ,    ,
+         ,    ,    ,    ,    ,    ,    ,         ,    ,    ,    ,    ,    ,    ,
   //`----+----+----+--+-+----+----+----/    \----+----+----+----+----+----+----'
-                           ,F13  ,    ,            ,    ,
+                           ,F13 ,    ,            ,    ,
   //                  `----+----+----'        `----+----+----'
   ),
 
@@ -314,7 +319,7 @@ static uint16_t rlower_pressed_time = 0;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
-    case LLWR:
+    case LLOWER:
       if (record->event.pressed) {
         llower_pressed = true;
         llower_pressed_time = record->event.time;
@@ -335,7 +340,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
       break;
-    case RLWR:
+    case RLOWER:
       if (record->event.pressed) {
         rlower_pressed = true;
         rlower_pressed_time = record->event.time;
@@ -383,3 +388,4 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       break;
   }
   return true;
+}
