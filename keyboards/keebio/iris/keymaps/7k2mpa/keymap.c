@@ -2,7 +2,7 @@
 #include "action_layer.h"
 #include "eeconfig.h"
 
-#include "7k2mpa.h"
+//#include "7k2mpa.h"
 
 extern keymap_config_t keymap_config;
 
@@ -26,12 +26,19 @@ enum custom_keycodes {
   ADJUST,
 };
 
+
+
 /* Tap Dance */
 enum {
-  TD_SHIFTCAPS = 10,
-  TD_LGUINMPD,
-  TD_LGUIMSCS,
-  X_TAP_DANCE
+  TD_SHIFTCAPS = 0,
+
+  TD_F13LOWER,
+  TD_F14LOWER,
+  TD_LGUIUNLOCK,
+  TD_RCTLUNLOCK,
+  TD_RAISERAISELOCK,
+  TD_RAISELOWERLOCK
+
 };
 
 
@@ -76,20 +83,22 @@ enum {
 #define KC_STAB S(KC_TAB)
 
 
-#define KC_SPLW LT(_LOWER,KC_SPC) // tap Space , Hold LowerLayer
-#define KC_ENLW LT(_LOWER,KC_ENTER) // tap Enter , Hold LowerLayer
 #define KC_ESRA LT(_RAISE,KC_ESC) // tap ESC , Hold RaiseLayer
 #define KC_DLRA LT(_RAISE,KC_DEL) // tap Delete , Hold RaiseLayer
 
+
 /* Tap Dance */
 #define KC_SHCP TD(TD_SHIFTCAPS)
-#define KC_LGNP TD(TD_LGUINMPD)
-#define KC_LGMC TD(TD_LGUIMSCS)
 
-#define KC_RTUB TD(TD_RTHUMB)
-#define KC_LTUB TD(TD_LTHUMB)
+#define KC_F14L TD(TD_F14LOWER)
+#define KC_F13L TD(TD_F13LOWER)
 
-#define KC_LLTB TD(TD_LLTHUMB)
+#define KC_LGUL TD(TD_LGUIUNLOCK)
+#define KC_RCUL TD(TD_RCTLUNLOCK)
+
+#define KC_DRRL TD(TD_RAISERAISELOCK)
+#define KC_ERLL TD(TD_RAISELOWERLOCK)
+
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -104,7 +113,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|----+----+----+----+----+----+----.    ,----|----+----+----+----+----+----|
      SHCP, Z  , X  , C  , V  , B  ,ESRA,     DLRA, N  , M  ,COMM,DOT ,SLSH,BLRS,
   //`----+----+----+--+-+----+----+----/    \----+----+----+----+----+----+----'
-                       LTUB,LLWR,TBCT,         BSAL,RLWR,RTUB
+                       LALT,LLWR,TBCT,         BSAL,RLWR,RGUI
   //                  `----+----+----'        `----+----+----'
   ),
 
@@ -118,9 +127,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|----+----+----+----+----+----|              |----+----+----+----+----+----|
          ,GRV ,MINS,EQL ,BSLS,LBRC,               RBRC,LEFT,DOWN,RGHT,END ,ENT ,
   //|----+----+----+----+----+----+----.    ,----|----+----+----+----+----+----|
-         , RO ,JYEN,QUES,LPRN,LCBR,RASE,     RASE,RCBR,RPRN,    ,    ,    ,    ,
+         , RO ,JYEN,QUES,LPRN,LCBR,ERLL,     DRRL,RCBR,RPRN,    ,    ,    ,    ,
   //`----+----+----+--+-+----+----+----/    \----+----+----+----+----+----+----'
-                       LLTB,    ,TAB ,         BSPC,    ,LGNP
+                       LGUL,    ,TAB ,         BSPC,    ,RCUL
   //                  `----+----+----'        `----+----+----'
   ),
 
@@ -134,7 +143,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|----+----+----+----+----+----+----.    ,----|----+----+----+----+----+----|
          ,    ,    ,    ,    ,    ,    ,         ,    ,    ,    ,    ,    ,    ,
   //`----+----+----+--+-+----+----+----/    \----+----+----+----+----+----+----'
-                           ,    ,    ,             ,F14 ,
+                           ,    ,    ,             ,F14L,
   //                  `----+----+----'        `----+----+----'
   ),
 
@@ -148,7 +157,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|----+----+----+----+----+----+----.    ,----|----+----+----+----+----+----|
          ,    ,    ,    ,    ,    ,    ,         ,    ,    ,    ,    ,    ,    ,
   //`----+----+----+--+-+----+----+----/    \----+----+----+----+----+----+----'
-                           ,F13 ,    ,            ,    ,
+                           ,F13L,    ,            ,    ,
   //                  `----+----+----'        `----+----+----'
   ),
 
@@ -164,7 +173,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|----+----+----+----+----+----|----.    ,----|----+----+----+----+----+----|
          ,PLUS,MINS,EQL ,BSLS,QUOT,    ,         ,DQUO,SLSH,    ,    ,    ,    ,
   //`----+----+----+--+-+----+----+----/    \----+----+----+----+----+----+----'
-                       LLTB,    ,    ,             ,    ,LGMC
+                           ,    ,    ,             ,    ,
   //                  `----+----+----'        `----+----+----'
   ),
 
@@ -231,19 +240,70 @@ void shift_caps_up (qk_tap_dance_state_t *state, void *user_data) {
   }
 }
 
-void dance_lgui_numpad_finished(qk_tap_dance_state_t* state, void* user_data)
+
+void dance_lguiunlock_finished(qk_tap_dance_state_t* state, void* user_data)
 {
     if (state->count == 1)
     {
         register_code(KC_LGUI);
+        layer_off(_LOWER);
     }
 }
 
-void dance_lgui_numpad_reset(qk_tap_dance_state_t* state, void* user_data)
+void dance_lguiunlock_reset(qk_tap_dance_state_t* state, void* user_data)
 {
     if (state->count == 1)
     {
         unregister_code(KC_LGUI);
+    }
+    else
+    {
+      layer_off(_RAISE);
+      layer_off(_LOWER);
+      layer_off(_NUMPAD);
+      layer_off(_MOUSECURSOR);
+    }
+}
+
+
+void dance_rctlunlock_finished(qk_tap_dance_state_t* state, void* user_data)
+{
+    if (state->count == 1)
+    {
+        register_code(KC_LCTL);
+        layer_off(_LOWER);
+    }
+}
+
+void dance_rctlunlock_reset(qk_tap_dance_state_t* state, void* user_data)
+{
+    if (state->count == 1)
+    {
+        unregister_code(KC_LCTL);
+    }
+    else
+    {
+      layer_off(_RAISE);
+      layer_off(_LOWER);
+      layer_off(_NUMPAD);
+      layer_off(_MOUSECURSOR);
+    }
+}
+
+
+void F13LOWER_finished(qk_tap_dance_state_t* state, void* user_data)
+{
+    if (state->count == 1)
+    {
+        register_code(KC_F13);
+    }
+}
+
+void F13LOWER_reset(qk_tap_dance_state_t* state, void* user_data)
+{
+    if (state->count == 1)
+    {
+        unregister_code(KC_F13);
     }
     else
     {
@@ -254,24 +314,25 @@ void dance_lgui_numpad_reset(qk_tap_dance_state_t* state, void* user_data)
         } else {
             layer_on(_NUMPAD);
             layer_off(_MOUSECURSOR);
+            layer_off(_LOWER);
+            layer_off(_RAISE);
         }
     }
 }
 
-
-void dance_lgui_mousecursor_finished(qk_tap_dance_state_t* state, void* user_data)
+void F14LOWER_finished(qk_tap_dance_state_t* state, void* user_data)
 {
     if (state->count == 1)
     {
-        register_code(KC_LGUI);
+        register_code(KC_F14);
     }
 }
 
-void dance_lgui_mousecursor_reset(qk_tap_dance_state_t* state, void* user_data)
+void F14LOWER_reset(qk_tap_dance_state_t* state, void* user_data)
 {
     if (state->count == 1)
     {
-        unregister_code(KC_LGUI);
+        unregister_code(KC_F14);
     }
     else
     {
@@ -282,8 +343,120 @@ void dance_lgui_mousecursor_reset(qk_tap_dance_state_t* state, void* user_data)
         } else {
             layer_on(_MOUSECURSOR);
             layer_off(_NUMPAD);
+            layer_off(_LOWER);
+            layer_off(_RAISE);
         }
     }
+}
+
+
+
+// Tap danceの設定
+enum {
+  SINGLE_TAP = 1,
+  SINGLE_HOLD = 2,
+  DOUBLE_TAP = 3,
+};
+
+typedef struct {
+  bool is_press_action;
+  int state;
+} tap;
+
+int cur_dance (qk_tap_dance_state_t *state) {
+  if (state->count == 1) {
+    if (!state->pressed) return SINGLE_TAP;
+    else return SINGLE_HOLD;
+  }
+  else if (state->count == 2) {
+    return DOUBLE_TAP;
+  }
+  else return 6; //magic number. At some point this method will expand to work for more presses
+}
+
+//instanalize an instance of 'tap' for the 'x' tap dance.
+static tap xtap_state = {
+  .is_press_action = true,
+  .state = 0
+};
+
+void dance_raiselowerlock_finished (qk_tap_dance_state_t *state, void *user_data) {
+  xtap_state.state = cur_dance(state);
+  switch (xtap_state.state) {
+    case SINGLE_TAP:                     // 単押しで「英数」と「無変換」　Lowerレイヤーがトグルされている場合はレイヤーをオフにする
+//        if (IS_LAYER_ON(_LOWER)){
+//            layer_off(_LOWER);
+//        } else {
+        register_code(KC_ESCAPE);
+
+//        }
+        break;
+    case SINGLE_HOLD:                   // 長押しでLowerレイヤーをオンにする
+        layer_on(_RAISE);
+        update_tri_layer(_LOWER, _RAISE, _ADJUST);
+        break;
+    case DOUBLE_TAP:                    // ダブルタップでLowerレイヤーをトグル
+        layer_invert(_LOWER); 
+        layer_off(_RAISE);
+        layer_off(_MOUSECURSOR);
+        layer_off(_NUMPAD);
+        update_tri_layer(_LOWER, _RAISE, _ADJUST);        
+        break;
+  }
+}
+
+void dance_raiselowerlock_reset (qk_tap_dance_state_t *state, void *user_data) {
+  switch (xtap_state.state) {
+    case SINGLE_TAP:  
+        unregister_code(KC_ESCAPE);
+
+        break;
+    case SINGLE_HOLD: 
+        layer_off(_RAISE);
+        update_tri_layer(_LOWER, _RAISE, _ADJUST);        
+        break;
+    case DOUBLE_TAP:  break;
+  }
+  xtap_state.state = 0;
+}
+
+void dance_raiseraiselock_finished (qk_tap_dance_state_t *state, void *user_data) {
+  xtap_state.state = cur_dance(state);
+  switch (xtap_state.state) {
+    case SINGLE_TAP:                     // 単押しで「英数」と「無変換」　Lowerレイヤーがトグルされている場合はレイヤーをオフにする
+//        if (IS_LAYER_ON(_LOWER)){
+//            layer_off(_LOWER);
+//        } else {
+        register_code(KC_DELETE);
+
+//        }
+        break;
+    case SINGLE_HOLD:                   // 長押しでLowerレイヤーをオンにする
+        layer_on(_RAISE);
+        update_tri_layer(_LOWER, _RAISE, _ADJUST);        
+        break;
+    case DOUBLE_TAP:                    // ダブルタップでLowerレイヤーをトグル
+        layer_invert(_RAISE); 
+        layer_off(_LOWER);
+        layer_off(_MOUSECURSOR);
+        layer_off(_NUMPAD);
+        update_tri_layer(_LOWER, _RAISE, _ADJUST);        
+        break;
+  }
+}
+
+void dance_raiseraiselock_reset (qk_tap_dance_state_t *state, void *user_data) {
+  switch (xtap_state.state) {
+    case SINGLE_TAP:  
+        unregister_code(KC_DELETE);
+
+        break;
+    case SINGLE_HOLD: 
+        layer_off(_RAISE);
+        break;
+    case DOUBLE_TAP:  break;
+  }
+  xtap_state.state = 0;
 }
 
 
@@ -292,19 +465,23 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 
   // Tap once for Left Shift , trice for CAPS Lock
         [TD_SHIFTCAPS] = ACTION_TAP_DANCE_FN_ADVANCED (NULL, shift_caps_down, shift_caps_up),
-  // tap once for LGUI , twice for move to NUMPAD layer
-        [TD_LGUINMPD] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, dance_lgui_numpad_finished, dance_lgui_numpad_reset),
-  // tap once for LGUI , twice for move to MOUSECURSOR layer
-        [TD_LGUIMSCS] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, dance_lgui_mousecursor_finished, dance_lgui_mousecursor_reset),
 
-        [TD_RTHUMB]     = ACTION_TAP_DANCE_FN_ADVANCED(NULL,rthumb_finished, rthumb_reset),
-        [TD_LTHUMB]     = ACTION_TAP_DANCE_FN_ADVANCED(NULL,lthumb_finished, lthumb_reset),
+        [TD_F13LOWER]   = ACTION_TAP_DANCE_FN_ADVANCED(NULL,F13LOWER_finished, F13LOWER_reset),
+        [TD_F14LOWER]   = ACTION_TAP_DANCE_FN_ADVANCED(NULL,F14LOWER_finished, F14LOWER_reset),
 
-        [TD_LLTHUMB]    = ACTION_TAP_DANCE_FN_ADVANCED(NULL,llthumb_finished, llthumb_reset)
+        [TD_LGUIUNLOCK]   = ACTION_TAP_DANCE_FN_ADVANCED(NULL,dance_lguiunlock_finished, dance_lguiunlock_reset),
+        [TD_RCTLUNLOCK]   = ACTION_TAP_DANCE_FN_ADVANCED(NULL,dance_rctlunlock_finished, dance_rctlunlock_reset),
+
+        [TD_RAISELOWERLOCK]   = ACTION_TAP_DANCE_FN_ADVANCED(NULL,dance_raiselowerlock_finished, dance_raiselowerlock_reset),
+        [TD_RAISERAISELOCK]   = ACTION_TAP_DANCE_FN_ADVANCED(NULL,dance_raiseraiselock_finished, dance_raiseraiselock_reset),
+
+
 };
 
 
+
 /* END TAP DANCE */
+
 
 
 void persistent_default_layer_set(uint16_t default_layer) {
@@ -389,3 +566,5 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   }
   return true;
 }
+
+

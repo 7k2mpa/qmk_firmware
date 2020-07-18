@@ -1,5 +1,7 @@
 #pragma once
 
+/*
+
 #include "quantum.h"
 #include "process_keycode/process_tap_dance.h"
 
@@ -37,3 +39,6 @@ void lthumb_reset (qk_tap_dance_state_t *state, void *user_data);
 
 void llthumb_finished (qk_tap_dance_state_t *state, void *user_data);
 void llthumb_reset (qk_tap_dance_state_t *state, void *user_data);
+
+
+*/
