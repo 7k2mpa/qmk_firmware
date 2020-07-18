@@ -71,11 +71,10 @@ enum {
 #define KC_MCVD KC__VOLDOWN
 
 
-//#define KC_ESCT MT(MOD_LCTL, KC_ESC) // tap Escape , Hold LCTL
 #define KC_TBCT MT(MOD_LCTL, KC_TAB) // tap TAB , Hold LCTL
 
 #define KC_BSAL MT(MOD_LALT, KC_BSPC) // tap BackSpace , Hold LALT
-//#define KC_DLAL MT(MOD_LALT, KC_DEL) // tap Delete , Hold LALT
+
 #define KC_BLRS MT(MOD_RSFT, KC_BSLS) // tap BackSlash , Hold RSFT
 
 
@@ -351,7 +350,7 @@ void F14LOWER_reset(qk_tap_dance_state_t* state, void* user_data)
 
 
 
-// Tap danceの設定
+// Tap dance definition
 enum {
   SINGLE_TAP = 1,
   SINGLE_HOLD = 2,
@@ -383,7 +382,7 @@ static tap xtap_state = {
 void dance_raiselowerlock_finished (qk_tap_dance_state_t *state, void *user_data) {
   xtap_state.state = cur_dance(state);
   switch (xtap_state.state) {
-    case SINGLE_TAP:                     // 単押しで「英数」と「無変換」　Lowerレイヤーがトグルされている場合はレイヤーをオフにする
+    case SINGLE_TAP:                     // single tap escape
 //        if (IS_LAYER_ON(_LOWER)){
 //            layer_off(_LOWER);
 //        } else {
@@ -391,11 +390,11 @@ void dance_raiselowerlock_finished (qk_tap_dance_state_t *state, void *user_data
 
 //        }
         break;
-    case SINGLE_HOLD:                   // 長押しでLowerレイヤーをオンにする
+    case SINGLE_HOLD:                   // hold RAISE layer on
         layer_on(_RAISE);
         update_tri_layer(_LOWER, _RAISE, _ADJUST);
         break;
-    case DOUBLE_TAP:                    // ダブルタップでLowerレイヤーをトグル
+    case DOUBLE_TAP:                    // double tap toggle Lower layer lock
         layer_invert(_LOWER); 
         layer_off(_RAISE);
         layer_off(_MOUSECURSOR);
@@ -423,7 +422,7 @@ void dance_raiselowerlock_reset (qk_tap_dance_state_t *state, void *user_data) {
 void dance_raiseraiselock_finished (qk_tap_dance_state_t *state, void *user_data) {
   xtap_state.state = cur_dance(state);
   switch (xtap_state.state) {
-    case SINGLE_TAP:                     // 単押しで「英数」と「無変換」　Lowerレイヤーがトグルされている場合はレイヤーをオフにする
+    case SINGLE_TAP:                     // single tap delete
 //        if (IS_LAYER_ON(_LOWER)){
 //            layer_off(_LOWER);
 //        } else {
@@ -431,11 +430,11 @@ void dance_raiseraiselock_finished (qk_tap_dance_state_t *state, void *user_data
 
 //        }
         break;
-    case SINGLE_HOLD:                   // 長押しでLowerレイヤーをオンにする
+    case SINGLE_HOLD:                   // hold RAISE layer on
         layer_on(_RAISE);
         update_tri_layer(_LOWER, _RAISE, _ADJUST);        
         break;
-    case DOUBLE_TAP:                    // ダブルタップでLowerレイヤーをトグル
+    case DOUBLE_TAP:                    // double tap toggle RAISE layer lock
         layer_invert(_RAISE); 
         layer_off(_LOWER);
         layer_off(_MOUSECURSOR);
