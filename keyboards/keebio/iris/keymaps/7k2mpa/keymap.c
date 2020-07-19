@@ -112,7 +112,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|----+----+----+----+----+----+----.    ,----|----+----+----+----+----+----|
      SHCP, Z  , X  , C  , V  , B  ,ESRA,     DLRA, N  , M  ,COMM,DOT ,SLSH,BLRS,
   //`----+----+----+--+-+----+----+----/    \----+----+----+----+----+----+----'
-                       LALT,LLWR,TBCT,         BSAL,RLWR,RGUI
+                       LALT,LLWR,TBCT,         BSAL,RLWR,LGUI
   //                  `----+----+----'        `----+----+----'
   ),
 
@@ -254,6 +254,7 @@ void dance_lguiunlock_reset(qk_tap_dance_state_t* state, void* user_data)
     if (state->count == 1)
     {
         unregister_code(KC_LGUI);
+        layer_on(_LOWER);
     }
     else
     {
@@ -279,6 +280,7 @@ void dance_rctlunlock_reset(qk_tap_dance_state_t* state, void* user_data)
     if (state->count == 1)
     {
         unregister_code(KC_LCTL);
+        layer_on(_LOWER);
     }
     else
     {
