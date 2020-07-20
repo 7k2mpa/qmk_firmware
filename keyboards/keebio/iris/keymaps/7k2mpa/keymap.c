@@ -122,9 +122,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,----+----+----+----+----+----.              ,----+----+----+----+----+----.
      ESC ,EXLM, AT ,HASH,DLR ,PERC,               CIRC,AMPR,ASTR,LPRN,RPRN,DEL ,
   //|----+----+----+----+----+----|              |----+----+----+----+----+----|
-         ,TILD,UNDS,PLUS,PIPE,LABK,               RABK,PGUP, UP ,PGDN,HOME,BSPC,
+         ,TILD,UNDS,EQL ,PIPE,LABK,               RABK,PGUP, UP ,PGDN,HOME,BSPC,
   //|----+----+----+----+----+----|              |----+----+----+----+----+----|
-         ,GRV ,MINS,EQL ,BSLS,LBRC,               RBRC,LEFT,DOWN,RGHT,END ,ENT ,
+         ,GRV ,PLUS,MINS,BSLS,LBRC,               RBRC,LEFT,DOWN,RGHT,END ,ENT ,
   //|----+----+----+----+----+----+----.    ,----|----+----+----+----+----+----|
          , RO ,JYEN,QUES,LPRN,LCBR,ERLL,     DRRL,RCBR,RPRN,    ,    ,    ,    ,
   //`----+----+----+--+-+----+----+----/    \----+----+----+----+----+----+----'
@@ -166,7 +166,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,----+----+----+----+----+----.              ,----+----+----+----+----+----.
      F12 , F1 , F2 , F3 , F4 , F5 ,                F6 , F7 , F8 , F9 ,F10 ,F11 ,
   //|----+----+----+----+----+----|              |----+----+----+----+----+----|
-     CADL, 1  , 2  , 3  , 4  , 5  ,                6  , 7  , 8  , 9  , 0  ,BSPC,
+         , 1  , 2  , 3  , 4  , 5  ,                6  , 7  , 8  , 9  , 0  ,BSPC,
   //|----+----+----+----+----+----+              |----+----+----+----+----+----|
          ,EXLM, AT ,HASH,DLR ,PERC,               CIRC,AMPR,ASTR,LPRN,RPRN,ENT ,
   //|----+----+----+----+----+----|----.    ,----|----+----+----+----+----+----|
@@ -194,9 +194,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,----+----+----+----+----+----.              ,----+----+----+----+----+----.
          ,    ,    ,    ,    ,    ,                   ,    ,    ,    ,    ,    ,
   //|----+----+----+----+----+----|              |----+----+----+----+----+----|
-         ,HOME,PGUP, UP ,PGDN,    ,               WH_D,BTN1,MS_U,BTN2,BTN3,ACL0,
+         ,HOME,PGUP, UP ,PGDN,NO  ,               WH_D,BTN1,MS_U,BTN2,BTN3,ACL0,
   //|----+----+----+----+----+----|              |----+----+----+----+----+----|
-         ,END ,LEFT,DOWN,RGHT,    ,               WH_L,MS_L,MS_D,MS_R,WH_R,ACL1,
+         ,END ,LEFT,DOWN,RGHT,NO  ,               WH_L,MS_L,MS_D,MS_R,WH_R,ACL1,
   //|----+----+----+----+----+----+----.    ,----|----+----+----+----+----+----|
          ,    ,    ,    ,    ,    ,    ,         ,WH_U,LEFT,DOWN, UP ,RGHT,ACL2,
   //`----+----+----+----+----+----+----/    \----+----+----+----+----+----+----'
@@ -207,13 +207,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_ADJUST] = LAYOUT_kc(
   //,----+----+----+----+----+----.              ,----+----+----+----+----+----.
-     RST ,MUTE,VOLD,VOLU,    ,    ,                   ,    ,    ,    ,    ,PSCR,
+     RST ,MUTE,VOLD,VOLU,NO  ,NO  ,               NO  ,NO  ,NO  ,NO  ,NO  ,PSCR,
   //|----+----+----+----+----+----|              |----+----+----+----+----+----|
-         ,    ,    ,    ,    ,    ,               RTOG,RMOD,RHUI,RSAI,RVAI,    ,
+     CADL,NO  ,NO  ,NO  ,NO  ,NO  ,               RTOG,RMOD,RHUI,RSAI,RVAI,NO  ,
   //|----+----+----+----+----+----|              |----+----+----+----+----+----|
-     MCPW,EJCT,MCVD,MCVU,    ,    ,                   ,DBUG,RHUD,RSAD,RVAD,    ,
+     MCPW,EJCT,MCVD,MCVU,NO  ,NO  ,               NO  ,DBUG,RHUD,RSAD,RVAD,NO  ,
   //|----+----+----+----+----+----+----.    ,----|----+----+----+----+----+----|
-     MUTE,    ,VOLD,VOLU,    ,    ,    ,         ,    ,    ,    ,    ,    ,BL_S,
+     MUTE,NO  ,VOLD,VOLU,NO  ,NO  ,    ,         ,NO  ,NO  ,NO  ,NO  ,NO  ,BL_S,
   //`----+----+----+--+-+----+----+----/    \----+----+----+----+----+----+----'
                            ,    ,    ,             ,    ,
   //                  `----+----+----'        `----+----+----'
@@ -291,7 +291,7 @@ void dance_lguiunlock_reset(qk_tap_dance_state_t* state, void* user_data)
     }
 }
 
-
+/*
 void F13LOWER_finished(qk_tap_dance_state_t* state, void* user_data)
 {
     if (state->count == 1)
@@ -320,6 +320,7 @@ void F13LOWER_reset(qk_tap_dance_state_t* state, void* user_data)
         }
     }
 }
+
 
 void F14LOWER_finished(qk_tap_dance_state_t* state, void* user_data)
 {
@@ -350,7 +351,7 @@ void F14LOWER_reset(qk_tap_dance_state_t* state, void* user_data)
     }
 }
 
-
+*/
 
 // Tap dance definition
 enum {
@@ -380,6 +381,93 @@ static tap xtap_state = {
   .is_press_action = true,
   .state = 0
 };
+
+
+
+
+void F13LOWER_finished (qk_tap_dance_state_t *state, void *user_data) {
+  xtap_state.state = cur_dance(state);
+  switch (xtap_state.state) {
+    case SINGLE_TAP:                     // single tap escape
+//        if (IS_LAYER_ON(_LOWER)){
+//            layer_off(_LOWER);
+//        } else {
+        register_code(KC_F13);
+
+//        }
+        break;
+    case SINGLE_HOLD:                   // hold RAISE layer on
+        register_code(KC_SPACE);
+        break;
+    case DOUBLE_TAP:                    // double tap toggle Lower layer lock
+        layer_invert(_NUMPAD); 
+        layer_off(_RAISE);
+        layer_off(_LOWER);
+        layer_off(_MOUSECURSOR);
+        update_tri_layer(_LOWER, _RAISE, _ADJUST);        
+        break;
+  }
+}
+
+void F13LOWER_reset (qk_tap_dance_state_t *state, void *user_data) {
+  switch (xtap_state.state) {
+    case SINGLE_TAP:  
+        unregister_code(KC_F13);
+
+        break;
+    case SINGLE_HOLD: 
+        unregister_code(KC_SPACE);        
+        break;
+    case DOUBLE_TAP:  break;
+  }
+  xtap_state.state = 0;
+}
+
+
+
+
+void F14LOWER_finished (qk_tap_dance_state_t *state, void *user_data) {
+  xtap_state.state = cur_dance(state);
+  switch (xtap_state.state) {
+    case SINGLE_TAP:                     // single tap escape
+//        if (IS_LAYER_ON(_LOWER)){
+//            layer_off(_LOWER);
+//        } else {
+        register_code(KC_F14);
+
+//        }
+        break;
+    case SINGLE_HOLD:                   // hold RAISE layer on
+        register_code(KC_ENTER);
+        break;
+    case DOUBLE_TAP:                    // double tap toggle Lower layer lock
+        layer_invert(_MOUSECURSOR); 
+        layer_off(_RAISE);
+        layer_off(_LOWER);
+        layer_off(_NUMPAD);
+        update_tri_layer(_LOWER, _RAISE, _ADJUST);        
+        break;
+  }
+}
+
+void F14LOWER_reset (qk_tap_dance_state_t *state, void *user_data) {
+  switch (xtap_state.state) {
+    case SINGLE_TAP:  
+        unregister_code(KC_F14);
+
+        break;
+    case SINGLE_HOLD: 
+        unregister_code(KC_ENTER);        
+        break;
+    case DOUBLE_TAP:  break;
+  }
+  xtap_state.state = 0;
+}
+
+
+
+
+
 
 void dance_raiselowerlock_finished (qk_tap_dance_state_t *state, void *user_data) {
   xtap_state.state = cur_dance(state);
