@@ -34,8 +34,8 @@ enum {
 
   TD_F13LOWER,
   TD_F14LOWER,
+  TD_LALTUNLOCK,
   TD_LGUIUNLOCK,
-  TD_RCTLUNLOCK,
   TD_RAISERAISELOCK,
   TD_RAISELOWERLOCK
 
@@ -92,8 +92,8 @@ enum {
 #define KC_F14L TD(TD_F14LOWER)
 #define KC_F13L TD(TD_F13LOWER)
 
+#define KC_LAUL TD(TD_LALTUNLOCK)
 #define KC_LGUL TD(TD_LGUIUNLOCK)
-#define KC_RCUL TD(TD_RCTLUNLOCK)
 
 #define KC_DRRL TD(TD_RAISERAISELOCK)
 #define KC_ERLL TD(TD_RAISELOWERLOCK)
@@ -128,7 +128,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|----+----+----+----+----+----+----.    ,----|----+----+----+----+----+----|
          , RO ,JYEN,QUES,LPRN,LCBR,ERLL,     DRRL,RCBR,RPRN,    ,    ,    ,    ,
   //`----+----+----+--+-+----+----+----/    \----+----+----+----+----+----+----'
-                       LGUL,    ,TAB ,         BSPC,    ,RCUL
+                       LAUL,    ,TAB ,         BSPC,    ,LGUL
   //                  `----+----+----'        `----+----+----'
   ),
 
@@ -240,21 +240,21 @@ void shift_caps_up (qk_tap_dance_state_t *state, void *user_data) {
 }
 
 
-void dance_lguiunlock_finished(qk_tap_dance_state_t* state, void* user_data)
+void dance_laltunlock_finished(qk_tap_dance_state_t* state, void* user_data)
 {
     if (state->count == 1)
     {
-        register_code(KC_LGUI);
-        layer_off(_LOWER);
+        register_code(KC_LALT);
+//        layer_off(_LOWER);
     }
 }
 
-void dance_lguiunlock_reset(qk_tap_dance_state_t* state, void* user_data)
+void dance_laltunlock_reset(qk_tap_dance_state_t* state, void* user_data)
 {
     if (state->count == 1)
     {
-        unregister_code(KC_LGUI);
-        layer_on(_LOWER);
+        unregister_code(KC_LALT);
+//        layer_on(_LOWER);
     }
     else
     {
@@ -266,21 +266,21 @@ void dance_lguiunlock_reset(qk_tap_dance_state_t* state, void* user_data)
 }
 
 
-void dance_rctlunlock_finished(qk_tap_dance_state_t* state, void* user_data)
+void dance_lguiunlock_finished(qk_tap_dance_state_t* state, void* user_data)
 {
     if (state->count == 1)
     {
-        register_code(KC_LCTL);
-        layer_off(_LOWER);
+        register_code(KC_LGUI);
+//        layer_off(_LOWER);
     }
 }
 
-void dance_rctlunlock_reset(qk_tap_dance_state_t* state, void* user_data)
+void dance_lguiunlock_reset(qk_tap_dance_state_t* state, void* user_data)
 {
     if (state->count == 1)
     {
-        unregister_code(KC_LCTL);
-        layer_on(_LOWER);
+        unregister_code(KC_LGUI);
+//        layer_on(_LOWER);
     }
     else
     {
@@ -471,7 +471,7 @@ qk_tap_dance_action_t tap_dance_actions[] = {
         [TD_F14LOWER]   = ACTION_TAP_DANCE_FN_ADVANCED(NULL,F14LOWER_finished, F14LOWER_reset),
 
         [TD_LGUIUNLOCK]   = ACTION_TAP_DANCE_FN_ADVANCED(NULL,dance_lguiunlock_finished, dance_lguiunlock_reset),
-        [TD_RCTLUNLOCK]   = ACTION_TAP_DANCE_FN_ADVANCED(NULL,dance_rctlunlock_finished, dance_rctlunlock_reset),
+        [TD_LALTUNLOCK]   = ACTION_TAP_DANCE_FN_ADVANCED(NULL,dance_laltunlock_finished, dance_laltunlock_reset),
 
         [TD_RAISELOWERLOCK]   = ACTION_TAP_DANCE_FN_ADVANCED(NULL,dance_raiselowerlock_finished, dance_raiselowerlock_reset),
         [TD_RAISERAISELOCK]   = ACTION_TAP_DANCE_FN_ADVANCED(NULL,dance_raiseraiselock_finished, dance_raiseraiselock_reset),
