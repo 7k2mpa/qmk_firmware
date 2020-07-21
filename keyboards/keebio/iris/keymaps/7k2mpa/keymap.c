@@ -291,68 +291,6 @@ void dance_lguiunlock_reset(qk_tap_dance_state_t* state, void* user_data)
     }
 }
 
-/*
-void F13LOWER_finished(qk_tap_dance_state_t* state, void* user_data)
-{
-    if (state->count == 1)
-    {
-        register_code(KC_F13);
-    }
-}
-
-void F13LOWER_reset(qk_tap_dance_state_t* state, void* user_data)
-{
-    if (state->count == 1)
-    {
-        unregister_code(KC_F13);
-    }
-    else
-    {
-        uint8_t layer = biton32(layer_state);
-        if (layer == _NUMPAD)
-        {
-            layer_off(_NUMPAD);
-        } else {
-            layer_on(_NUMPAD);
-            layer_off(_MOUSECURSOR);
-            layer_off(_LOWER);
-            layer_off(_RAISE);
-        }
-    }
-}
-
-
-void F14LOWER_finished(qk_tap_dance_state_t* state, void* user_data)
-{
-    if (state->count == 1)
-    {
-        register_code(KC_F14);
-    }
-}
-
-void F14LOWER_reset(qk_tap_dance_state_t* state, void* user_data)
-{
-    if (state->count == 1)
-    {
-        unregister_code(KC_F14);
-    }
-    else
-    {
-        uint8_t layer = biton32(layer_state);
-        if (layer == _MOUSECURSOR)
-        {
-            layer_off(_MOUSECURSOR);
-        } else {
-            layer_on(_MOUSECURSOR);
-            layer_off(_NUMPAD);
-            layer_off(_LOWER);
-            layer_off(_RAISE);
-        }
-    }
-}
-
-*/
-
 // Tap dance definition
 enum {
   SINGLE_TAP = 1,
@@ -388,7 +326,7 @@ static tap xtap_state = {
 void F13LOWER_finished (qk_tap_dance_state_t *state, void *user_data) {
   xtap_state.state = cur_dance(state);
   switch (xtap_state.state) {
-    case SINGLE_TAP:                     // single tap escape
+    case SINGLE_TAP:                     // single tap F13
 //        if (IS_LAYER_ON(_LOWER)){
 //            layer_off(_LOWER);
 //        } else {
@@ -396,10 +334,10 @@ void F13LOWER_finished (qk_tap_dance_state_t *state, void *user_data) {
 
 //        }
         break;
-    case SINGLE_HOLD:                   // hold RAISE layer on
+    case SINGLE_HOLD:                   // hold Space(repeat)
         register_code(KC_SPACE);
         break;
-    case DOUBLE_TAP:                    // double tap toggle Lower layer lock
+    case DOUBLE_TAP:                    // double tap toggle Numpad layer lock
         layer_invert(_NUMPAD); 
         layer_off(_RAISE);
         layer_off(_LOWER);
@@ -429,7 +367,7 @@ void F13LOWER_reset (qk_tap_dance_state_t *state, void *user_data) {
 void F14LOWER_finished (qk_tap_dance_state_t *state, void *user_data) {
   xtap_state.state = cur_dance(state);
   switch (xtap_state.state) {
-    case SINGLE_TAP:                     // single tap escape
+    case SINGLE_TAP:                     // single tap F14
 //        if (IS_LAYER_ON(_LOWER)){
 //            layer_off(_LOWER);
 //        } else {
@@ -437,10 +375,10 @@ void F14LOWER_finished (qk_tap_dance_state_t *state, void *user_data) {
 
 //        }
         break;
-    case SINGLE_HOLD:                   // hold RAISE layer on
+    case SINGLE_HOLD:                   // hold Enter(repeat)
         register_code(KC_ENTER);
         break;
-    case DOUBLE_TAP:                    // double tap toggle Lower layer lock
+    case DOUBLE_TAP:                    // double tap toggle MouseCursor layer lock
         layer_invert(_MOUSECURSOR); 
         layer_off(_RAISE);
         layer_off(_LOWER);
