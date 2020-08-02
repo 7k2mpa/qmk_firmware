@@ -71,7 +71,8 @@ enum {
 #define KC_MCVD KC__VOLDOWN
 
 
-#define KC_TBCT MT(MOD_LCTL, KC_TAB) // tap TAB , Hold LCTL
+#define KC_TBCT MT(MOD_RCTL, KC_TAB) // tap TAB , Hold RCTL
+#define KC_QTCT MT(MOD_RCTL, KC_QUOTE) // tap Quote , Hold RCTL
 
 #define KC_BSAL MT(MOD_LALT, KC_BSPC) // tap BackSpace , Hold LALT
 
@@ -82,8 +83,8 @@ enum {
 #define KC_STAB S(KC_TAB)
 
 
-#define KC_ESRA LT(_RAISE,KC_ESC) // tap ESC , Hold RaiseLayer
-#define KC_DLRA LT(_RAISE,KC_DEL) // tap Delete , Hold RaiseLayer
+#define KC_ESRA LT(_RAISE,KC_ESC) // tap ESC , Hold Raise Layer
+#define KC_DLRA LT(_RAISE,KC_DEL) // tap Delete , Hold Raise Layer
 
 
 /* Tap Dance */
@@ -108,7 +109,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|----+----+----+----+----+----|              |----+----+----+----+----+----|
      TAB , Q  , W  , E  , R  , T  ,                Y  , U  , I  , O  , P  ,EQL ,
   //|----+----+----+----+----+----|              |----+----+----+----+----+----|
-     LCTL, A  , S  , D  , F  , G  ,                H  , J  , K  , L  ,SCLN,QUOT,
+     LCTL, A  , S  , D  , F  , G  ,                H  , J  , K  , L  ,SCLN,QTCT,
   //|----+----+----+----+----+----+----.    ,----|----+----+----+----+----+----|
      SHCP, Z  , X  , C  , V  , B  ,ESRA,     DLRA, N  , M  ,COMM,DOT ,SLSH,BLRS,
   //`----+----+----+--+-+----+----+----/    \----+----+----+----+----+----+----'
@@ -240,24 +241,18 @@ void shift_caps_up (qk_tap_dance_state_t *state, void *user_data) {
 }
 
 
-void dance_laltunlock_finished(qk_tap_dance_state_t* state, void* user_data)
-{
-    if (state->count == 1)
-    {
+void dance_laltunlock_finished(qk_tap_dance_state_t* state, void* user_data) {
+    if (state->count == 1) {
         register_code(KC_LALT);
 //        layer_off(_LOWER);
     }
 }
 
-void dance_laltunlock_reset(qk_tap_dance_state_t* state, void* user_data)
-{
-    if (state->count == 1)
-    {
+void dance_laltunlock_reset(qk_tap_dance_state_t* state, void* user_data) {
+    if (state->count == 1) {
         unregister_code(KC_LALT);
 //        layer_on(_LOWER);
-    }
-    else
-    {
+    } else {
       layer_off(_RAISE);
       layer_off(_LOWER);
       layer_off(_NUMPAD);
@@ -266,24 +261,18 @@ void dance_laltunlock_reset(qk_tap_dance_state_t* state, void* user_data)
 }
 
 
-void dance_lguiunlock_finished(qk_tap_dance_state_t* state, void* user_data)
-{
-    if (state->count == 1)
-    {
+void dance_lguiunlock_finished(qk_tap_dance_state_t* state, void* user_data) {
+    if (state->count == 1) {
         register_code(KC_LGUI);
 //        layer_off(_LOWER);
     }
 }
 
-void dance_lguiunlock_reset(qk_tap_dance_state_t* state, void* user_data)
-{
-    if (state->count == 1)
-    {
+void dance_lguiunlock_reset(qk_tap_dance_state_t* state, void* user_data) {
+    if (state->count == 1) {
         unregister_code(KC_LGUI);
 //        layer_on(_LOWER);
-    }
-    else
-    {
+    } else {
       layer_off(_RAISE);
       layer_off(_LOWER);
       layer_off(_NUMPAD);
